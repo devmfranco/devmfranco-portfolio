@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "name": "IAventary",
+    "html_url": "https://github.com/devmfranco/IAventary",
+    "description": "Sistema Inteligente de Inventario y Facturación. El núcleo integra Inteligencia Artificial para optimizar el stock y automatizar flujos comerciales.",
+    "language": "TypeScript",
+    "topics": ["NestJS", "PostgreSQL", "Supabase", "TypeORM", "IA"],
+    "category": "backend",
+    "impact": "Arquitectura escalable orientada a servicios y gestión inteligente de inventario.",
+    "stargazers_count": 12,
+    "forks_count": 3
+  },
+  {
+    "id": 2,
+    "name": "Vigilante CJB",
+    "html_url": "https://github.com/devmfranco/vigilante-cjb",
+    "description": "Plataforma de Alertas Comunitarias y Seguridad en tiempo real con geolocalización que conecta residentes con empresas de seguridad.",
+    "language": "TypeScript",
+    "topics": ["React", "Vite", "Leaflet", "Supabase", "PLpgSQL"],
+    "category": "web",
+    "impact": "Panel administrativo CRUD para gestión del ciclo de vida de alertas y mapa interactivo para monitoreo perimetral.",
+    "stargazers_count": 8,
+    "forks_count": 2
+  },
+  {
+    "id": 3,
+    "name": "TalentFit AI",
+    "html_url": "https://github.com/devmfranco/ai-resume-skill-analyzer",
+    "description": "Analizador de Habilidades y CVs con Machine Learning & NLP que evalúa coincidencia semántica entre Currículums y Ofertas 100% en el navegador.",
+    "language": "JavaScript",
+    "topics": ["NLP", "Machine Learning", "TF-IDF", "Chart.js", "HTML5"],
+    "category": "data-ai",
+    "impact": "Generación de Matriz de Brechas (Skill Gap Matrix) y auditoría de formato ATS con total privacidad.",
+    "stargazers_count": 15,
+    "forks_count": 4
+  },
+  {
+    "id": 4,
+    "name": "Nish-Soft Extend",
+    "html_url": "https://github.com/devmfranco/Nish-Soft-Extend",
+    "description": "Sistema backend transaccional para control preciso de inventario, procesamiento de ventas y emisión de comprobantes fiscales.",
+    "language": "TypeScript",
+    "topics": ["NestJS", "TypeORM", "PostgreSQL", "Mailjet", "REST-API"],
+    "category": "backend",
+    "impact": "Sistema de autenticación seguro basado en roles y notificaciones automatizadas resolviendo dependencias complejas.",
+    "stargazers_count": 7,
+    "forks_count": 1
+  },
+  {
+    "id": 5,
+    "name": "ReciclaDO",
+    "html_url": "https://github.com/devmfranco/ReciclaDO",
+    "description": "Aplicación móvil de impacto ambiental para incentivar el reciclaje en República Dominicana mediante geolocalización.",
+    "language": "TypeScript",
+    "topics": ["React Native", "Expo", "Node.js", "Mobile", "Geolocalización"],
+    "category": "mobile",
+    "impact": "Seguimiento personal de métricas de reciclaje y educación ambiental en iOS y Android.",
+    "stargazers_count": 10,
+    "forks_count": 2
+  },
+  {
+    "id": 6,
+    "name": "Fitplans",
+    "html_url": "https://github.com/devmfranco/Fitplans",
+    "description": "Plataforma web de fitness con gestión de usuarios, control de datos y seguimiento de entrenamientos personalizados.",
+    "language": "TypeScript",
+    "topics": ["Angular", "TypeScript", "Karma", "Vercel", "Testing"],
+    "category": "web",
+    "impact": "Gestión eficiente en entorno colaborativo y estructuración segura de componentes de registro y autenticación.",
+    "stargazers_count": 6,
+    "forks_count": 1
+  }
+]
