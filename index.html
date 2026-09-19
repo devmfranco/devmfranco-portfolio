@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="matrix">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,27 +19,65 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Top Scroll Progress Bar -->
+    <div class="scroll-progress-bar" id="scroll-progress"></div>
+
     <div class="glow-orb glow-orb-1"></div>
     <div class="glow-orb glow-orb-2"></div>
     <canvas id="particles"></canvas>
 
     <header class="header">
-        <nav class="navbar">
+        <nav class="navbar" id="navbar">
             <div class="nav-container">
                 <a href="#home" class="nav-logo">
                     <span class="nav-logo-badge">MF</span>
                     <span>Michael Franco</span>
                 </a>
-                <ul class="nav-menu">
-                    <li><a href="#home" class="nav-link active">Inicio</a></li>
-                    <li><a href="#about" class="nav-link">Sobre Mí</a></li>
-                    <li><a href="#projects" class="nav-link">Proyectos</a></li>
-                    <li><a href="#skills" class="nav-link">Habilidades</a></li>
-                    <li><a href="#contact" class="nav-link">Contacto</a></li>
-                </ul>
-                <button class="menu-toggle" id="menu-toggle" aria-label="Abrir Menú">
-                    <span></span><span></span><span></span>
-                </button>
+                
+                <div class="nav-actions-wrapper">
+                    <ul class="nav-menu">
+                        <li><a href="#home" class="nav-link active">Inicio</a></li>
+                        <li><a href="#about" class="nav-link">Sobre Mí</a></li>
+                        <li><a href="#projects" class="nav-link">Proyectos</a></li>
+                        <li><a href="#skills" class="nav-link">Habilidades</a></li>
+                        <li><a href="#contact" class="nav-link">Contacto</a></li>
+                    </ul>
+
+                    <!-- Theme Switcher Dropdown (Inspired by integr-dev) -->
+                    <div class="theme-dropdown-container">
+                        <button class="theme-toggle-btn" id="theme-btn" aria-label="Cambiar Tema" title="Cambiar Tema">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                                <path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10c1.38 0 2.5-1.12 2.5-2.5 0-.61-.23-1.21-.64-1.67-.08-.1-.13-.22-.13-.33 0-.28.22-.5.5-.5H16c3.31 0 6-2.69 6-6 0-4.96-4.49-9-10-9zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 8 6.5 8s1.5.67 1.5 1.5S7.33 11 6.5 11zm3-4C8.67 7 8 6.33 8 5.5S8.67 4 9.5 4s1.5.67 1.5 1.5S10.33 7 9.5 7zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 4 14.5 4s1.5.67 1.5 1.5S15.33 7 14.5 7zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 8 17.5 8s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+                            </svg>
+                        </button>
+                        <div class="theme-dropdown-menu" id="theme-menu">
+                            <button class="theme-option active" data-set-theme="matrix">
+                                <span class="theme-dot" style="background:#00ff9d;"></span>
+                                <span>Verde Tech (Matrix)</span>
+                            </button>
+                            <button class="theme-option" data-set-theme="sunset">
+                                <span class="theme-dot" style="background:#ff6b4a;"></span>
+                                <span>Sunset (Naranja)</span>
+                            </button>
+                            <button class="theme-option" data-set-theme="cyberpunk">
+                                <span class="theme-dot" style="background:#f72585;"></span>
+                                <span>Cyberpunk (Neon)</span>
+                            </button>
+                            <button class="theme-option" data-set-theme="night">
+                                <span class="theme-dot" style="background:#38bdf8;"></span>
+                                <span>Night (Azul)</span>
+                            </button>
+                            <button class="theme-option" data-set-theme="dim">
+                                <span class="theme-dot" style="background:#a3e635;"></span>
+                                <span>Dim (Minimal)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button class="menu-toggle" id="menu-toggle" aria-label="Abrir Menú">
+                        <span></span><span></span><span></span>
+                    </button>
+                </div>
             </div>
         </nav>
     </header>
@@ -78,7 +116,7 @@
                 </p>
 
                 <p class="hero-bio">
-                    Especializado en <strong class="text-glow">arquitecturas backend</strong>, <strong class="text-glow">análisis de datos avanzado</strong> y automatización. Doble Maestría en <strong class="text-glow">Big Data & BI</strong> y <strong class="text-glow">Project Management</strong>, con experiencia de impacto en el <strong class="text-glow">Banco de Reservas</strong> y el <strong class="text-glow">MICM</strong>.
+                    Especializado en <strong class="text-glow">desarrollo Full Stack</strong>, <strong class="text-glow">arquitecturas backend</strong> y <strong class="text-glow">análisis de datos avanzado</strong>. Doble Maestría en <strong class="text-glow">Big Data & BI</strong> y <strong class="text-glow">Project Management</strong>. Experiencia clave como desarrollador Full Stack en la <strong class="text-glow">Ventanilla Virtual del MICM</strong> y proyectos analíticos en el <strong class="text-glow">Banco de Reservas</strong>.
                 </p>
 
                 <div class="hero-buttons">
@@ -130,19 +168,19 @@
                 <div class="about-text">
                     <h3>Ingeniería de Software orientada a Negocio & Datos</h3>
                     <p>
-                        Ingeniero en Software con una <span class="highlight">doble Maestría en Big Data & Business Intelligence</span> y <span class="highlight">Project Management</span>. Mi experiencia abarca desde el desarrollo de software y arquitecturas backend hasta el análisis de datos avanzado.
+                        Ingeniero en Software con una <span class="highlight">doble Maestría en Big Data & Business Intelligence</span> y <span class="highlight">Project Management</span>. Mi experiencia abarca desde el desarrollo Full Stack y arquitecturas backend hasta el análisis de datos avanzado.
                     </p>
                     <p>
-                        He aportado valor en instituciones de alto perfil (como el <span class="highlight">Banco de Reservas</span> y el <span class="highlight">Ministerio de Industria, Comercio y Mipymes</span>) diseñando consultas SQL complejas, dashboards en Power BI y flujos de automatización con Power Automate.
+                        He aportado valor en instituciones de alto perfil como desarrollador Full Stack en el proyecto de la <span class="highlight">Ventanilla Virtual del Ministerio de Industria, Comercio y Mipymes (MICM)</span>, implementando diversas funcionalidades transaccionales, integraciones y mejoras continuas de rendimiento. Asimismo, en el <span class="highlight">Banco de Reservas</span> diseñé consultas SQL complejas, dashboards en Power BI y flujos de automatización con Power Automate.
                     </p>
                     <p>
                         Combino mi capacidad analítica con el desarrollo de soluciones integrales que resuelven problemas reales de negocio con solidez técnica, buenas prácticas y visión estratégica.
                     </p>
                     <div class="experience-pills">
+                        <span class="exp-badge">🏛️ Ventanilla Virtual MICM</span>
                         <span class="exp-badge">🏦 Banco de Reservas</span>
-                        <span class="exp-badge">🏛️ MICM</span>
+                        <span class="exp-badge">🚀 Desarrollo Full Stack</span>
                         <span class="exp-badge">📊 Big Data & BI</span>
-                        <span class="exp-badge">🚀 Arquitecturas Backend</span>
                     </div>
                 </div>
                 <div class="about-cards">
@@ -201,7 +239,7 @@
             </div>
         </section>
 
-        <!-- Skills Section - Clean Redesigned Layout with Vector SVGs -->
+        <!-- Skills Section -->
         <section id="skills" class="section">
             <div class="section-header">
                 <span class="section-tag">// Stack Tecnológico</span>

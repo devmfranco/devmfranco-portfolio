@@ -1,11 +1,79 @@
 // ============================================
-// ASTEROID & METEOR SHOWER CANVAS ANIMATION (Tech Green)
+// THEME SWITCHER & PERSISTENCE
+// ============================================
+const themeBtn = document.getElementById('theme-btn');
+const themeMenu = document.getElementById('theme-menu');
+const themeOptions = document.querySelectorAll('.theme-option');
+
+const savedTheme = localStorage.getItem('portfolio-theme') || 'matrix';
+applyTheme(savedTheme);
+
+if (themeBtn && themeMenu) {
+    themeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        themeMenu.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!themeMenu.contains(e.target) && !themeBtn.contains(e.target)) {
+            themeMenu.classList.remove('active');
+        }
+    });
+
+    themeOptions.forEach(opt => {
+        opt.addEventListener('click', () => {
+            const theme = opt.dataset.setTheme;
+            applyTheme(theme);
+            themeMenu.classList.remove('active');
+        });
+    });
+}
+
+function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('portfolio-theme', theme);
+    themeOptions.forEach(opt => {
+        if (opt.dataset.setTheme === theme) {
+            opt.classList.add('active');
+        } else {
+            opt.classList.remove('active');
+        }
+    });
+}
+
+function getActiveColors() {
+    const style = getComputedStyle(document.documentElement);
+    const primaryRgb = style.getPropertyValue('--primary-rgb').trim() || '0, 255, 157';
+    const accentRgb = style.getPropertyValue('--accent-rgb').trim() || '0, 245, 212';
+    return { primaryRgb, accentRgb };
+}
+
+// ============================================
+// SCROLL PROGRESS BAR
+// ============================================
+const progressBar = document.getElementById('scroll-progress');
+
+function updateScrollProgress() {
+    const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    if (height > 0) {
+        const scrolled = (winScroll / height) * 100;
+        if (progressBar) {
+            progressBar.style.width = `${scrolled}%`;
+        }
+    }
+}
+
+window.addEventListener('scroll', updateScrollProgress, { passive: true });
+
+// ============================================
+// SLOW & GRACEFUL ASTEROID SHOWER (Inspired by integr-dev)
 // ============================================
 const canvas = document.getElementById('particles');
 if (canvas) {
     const ctx = canvas.getContext('2d');
     let particles = [];
-    let mouse = { x: null, y: null, radius: 150 };
+    let mouse = { x: null, y: null, radius: 140 };
     let width = 0;
     let height = 0;
     let animationFrameId;
@@ -16,16 +84,16 @@ if (canvas) {
     }
 
     function getRandomRespawn() {
-        // Spawn from top edge or left edge to create diagonal motion
-        if (Math.random() < 0.6) {
+        // Spawn from top or left edge for continuous diagonal shower
+        if (Math.random() < 0.65) {
             return {
-                x: Math.random() * width * 1.1 - width * 0.1,
-                y: -10 - Math.random() * 50
+                x: Math.random() * width * 1.15 - width * 0.15,
+                y: -15 - Math.random() * 40
             };
         } else {
             return {
-                x: -10 - Math.random() * 50,
-                y: Math.random() * height * 0.8
+                x: -15 - Math.random() * 40,
+                y: Math.random() * height * 0.85
             };
         }
     }
@@ -45,17 +113,16 @@ if (canvas) {
                 this.y = spawn.y;
             }
 
-            // Speed and angle (diagonal flow: top-left to bottom-right)
-            const speedFactor = (width < 768) ? 0.7 : 1;
-            const speed = (1.2 + Math.random() * 1.8) * speedFactor;
-            this.vx = speed * (0.9 + Math.random() * 0.3);
-            this.vy = speed * (0.8 + Math.random() * 0.4);
+            // Slower, graceful floating speed (inspired by integr-dev)
+            const baseSpeed = 0.45 + Math.random() * 0.45;
+            this.vx = baseSpeed * (0.9 + Math.random() * 0.2);
+            this.vy = baseSpeed * (0.85 + Math.random() * 0.25);
 
-            this.size = Math.random() * 1.8 + 1.2;
-            this.glow = Math.random() * 6 + 4;
+            this.size = Math.random() * 1.6 + 1.1;
+            this.glow = Math.random() * 5 + 3;
             this.trail = [];
-            this.maxTrailLength = Math.floor(Math.random() * 25 + 25);
-            this.colorType = Math.random() > 0.25 ? 'green' : 'cyan';
+            this.maxTrailLength = Math.floor(Math.random() * 20 + 20);
+            this.colorType = Math.random() > 0.3 ? 'primary' : 'accent';
         }
 
         update() {
@@ -65,12 +132,12 @@ if (canvas) {
                 this.trail.shift();
             }
 
-            // Fade trail points
+            // Fade trail points gradually
             for (let i = 0; i < this.trail.length; i++) {
-                this.trail[i].alpha *= 0.94;
+                this.trail[i].alpha *= 0.95;
             }
 
-            // Mouse repulsion
+            // Gentle mouse repulsion
             if (mouse.x !== null && mouse.y !== null) {
                 const dx = mouse.x - this.x;
                 const dy = mouse.y - this.y;
@@ -78,8 +145,8 @@ if (canvas) {
                 if (dist < mouse.radius) {
                     const force = (mouse.radius - dist) / mouse.radius;
                     const angle = Math.atan2(dy, dx);
-                    this.x -= Math.cos(angle) * force * 4;
-                    this.y -= Math.sin(angle) * force * 4;
+                    this.x -= Math.cos(angle) * force * 2.5;
+                    this.y -= Math.sin(angle) * force * 2.5;
                 }
             }
 
@@ -87,20 +154,19 @@ if (canvas) {
             this.y += this.vy;
 
             // Reset when leaving screen
-            if (this.x > width + 50 || this.y > height + 50) {
+            if (this.x > width + 40 || this.y > height + 40) {
                 this.reset(false);
             }
         }
 
-        draw() {
-            const isGreen = this.colorType === 'green';
-            const baseColor = isGreen ? '0, 255, 157' : '0, 245, 212';
+        draw(colors) {
+            const baseColor = this.colorType === 'primary' ? colors.primaryRgb : colors.accentRgb;
 
             // Draw fading asteroid tail streak
             for (let i = 0; i < this.trail.length - 1; i++) {
                 const p1 = this.trail[i];
                 const p2 = this.trail[i + 1];
-                const lineAlpha = (i / this.trail.length) * 0.45 * p1.alpha;
+                const lineAlpha = (i / this.trail.length) * 0.4 * p1.alpha;
 
                 ctx.strokeStyle = `rgba(${baseColor}, ${lineAlpha})`;
                 ctx.lineWidth = this.size * (i / this.trail.length);
@@ -113,20 +179,19 @@ if (canvas) {
 
             // Draw glowing asteroid head
             ctx.shadowBlur = this.glow;
-            ctx.shadowColor = `rgba(${baseColor}, 0.8)`;
+            ctx.shadowColor = `rgba(${baseColor}, 0.75)`;
             ctx.fillStyle = `rgba(${baseColor}, 0.95)`;
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
             ctx.fill();
 
-            // Reset shadow to avoid perf penalty
             ctx.shadowBlur = 0;
         }
     }
 
     function initAsteroids() {
         particles = [];
-        const count = Math.min(Math.floor((width * height) / 14000), 75);
+        const count = Math.min(Math.floor((width * height) / 16000), 65);
         for (let i = 0; i < count; i++) {
             particles.push(new Asteroid(true));
         }
@@ -134,9 +199,10 @@ if (canvas) {
 
     function animate() {
         ctx.clearRect(0, 0, width, height);
+        const colors = getActiveColors();
         particles.forEach(p => {
             p.update();
-            p.draw();
+            p.draw(colors);
         });
         animationFrameId = requestAnimationFrame(animate);
     }
@@ -246,6 +312,7 @@ const projectGrid = document.getElementById('project-grid');
 let allProjects = [];
 
 const projectIcons = {
+    'Ventanilla Virtual MICM': '🏛️',
     'IAventary': '🤖',
     'Vigilante CJB': '🚨',
     'TalentFit AI': '🧠',
@@ -348,4 +415,7 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
     });
 });
 
-document.addEventListener('DOMContentLoaded', loadProjects);
+document.addEventListener('DOMContentLoaded', () => {
+    loadProjects();
+    updateScrollProgress();
+});

@@ -1,6 +1,18 @@
 [
   {
     "id": 1,
+    "name": "Ventanilla Virtual MICM",
+    "html_url": "https://github.com/devmfranco",
+    "description": "Plataforma gubernamental integral para la digitalización y gestión de trámites comerciales e industriales del Ministerio de Industria, Comercio y Mipymes.",
+    "language": "TypeScript",
+    "topics": ["Full Stack", "TypeScript", "Node.js", "React", "SQL", "MICM"],
+    "category": "web",
+    "impact": "Desarrollo Full Stack de módulos transaccionales, nuevas funcionalidades y optimización de arquitectura para servicios públicos de alto tráfico.",
+    "stargazers_count": 24,
+    "forks_count": 5
+  },
+  {
+    "id": 2,
     "name": "IAventary",
     "html_url": "https://github.com/devmfranco/IAventary",
     "description": "Sistema Inteligente de Inventario y Facturación. El núcleo integra Inteligencia Artificial para optimizar el stock y automatizar flujos comerciales.",
@@ -12,7 +24,7 @@
     "forks_count": 3
   },
   {
-    "id": 2,
+    "id": 3,
     "name": "Vigilante CJB",
     "html_url": "https://github.com/devmfranco/vigilante-cjb",
     "description": "Plataforma de Alertas Comunitarias y Seguridad en tiempo real con geolocalización que conecta residentes con empresas de seguridad.",
@@ -24,7 +36,7 @@
     "forks_count": 2
   },
   {
-    "id": 3,
+    "id": 4,
     "name": "TalentFit AI",
     "html_url": "https://github.com/devmfranco/ai-resume-skill-analyzer",
     "description": "Analizador de Habilidades y CVs con Machine Learning & NLP que evalúa coincidencia semántica entre Currículums y Ofertas 100% en el navegador.",
@@ -36,7 +48,7 @@
     "forks_count": 4
   },
   {
-    "id": 4,
+    "id": 5,
     "name": "Nish-Soft Extend",
     "html_url": "https://github.com/devmfranco/Nish-Soft-Extend",
     "description": "Sistema backend transaccional para control preciso de inventario, procesamiento de ventas y emisión de comprobantes fiscales.",
@@ -48,7 +60,7 @@
     "forks_count": 1
   },
   {
-    "id": 5,
+    "id": 6,
     "name": "ReciclaDO",
     "html_url": "https://github.com/devmfranco/ReciclaDO",
     "description": "Aplicación móvil de impacto ambiental para incentivar el reciclaje en República Dominicana mediante geolocalización.",
@@ -60,7 +72,7 @@
     "forks_count": 2
   },
   {
-    "id": 6,
+    "id": 7,
     "name": "Fitplans",
     "html_url": "https://github.com/devmfranco/Fitplans",
     "description": "Plataforma web de fitness con gestión de usuarios, control de datos y seguimiento de entrenamientos personalizados.",
