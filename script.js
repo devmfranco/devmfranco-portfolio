@@ -1,90 +1,149 @@
 // ============================================
-// PARTICLE SYSTEM (Tech Green Glow)
+// ASTEROID & METEOR SHOWER CANVAS ANIMATION (Tech Green)
 // ============================================
 const canvas = document.getElementById('particles');
 if (canvas) {
     const ctx = canvas.getContext('2d');
     let particles = [];
-    let mouse = { x: null, y: null, radius: 140 };
+    let mouse = { x: null, y: null, radius: 150 };
+    let width = 0;
+    let height = 0;
+    let animationFrameId;
 
     function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
     }
 
-    class Particle {
-        constructor() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 2 + 0.8;
-            this.density = Math.random() * 25 + 1;
-            this.vx = (Math.random() - 0.5) * 0.4;
-            this.vy = (Math.random() - 0.5) * 0.4;
+    function getRandomRespawn() {
+        // Spawn from top edge or left edge to create diagonal motion
+        if (Math.random() < 0.6) {
+            return {
+                x: Math.random() * width * 1.1 - width * 0.1,
+                y: -10 - Math.random() * 50
+            };
+        } else {
+            return {
+                x: -10 - Math.random() * 50,
+                y: Math.random() * height * 0.8
+            };
         }
+    }
+
+    class Asteroid {
+        constructor(isInitial = true) {
+            this.reset(isInitial);
+        }
+
+        reset(isInitial = false) {
+            if (isInitial) {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+            } else {
+                const spawn = getRandomRespawn();
+                this.x = spawn.x;
+                this.y = spawn.y;
+            }
+
+            // Speed and angle (diagonal flow: top-left to bottom-right)
+            const speedFactor = (width < 768) ? 0.7 : 1;
+            const speed = (1.2 + Math.random() * 1.8) * speedFactor;
+            this.vx = speed * (0.9 + Math.random() * 0.3);
+            this.vy = speed * (0.8 + Math.random() * 0.4);
+
+            this.size = Math.random() * 1.8 + 1.2;
+            this.glow = Math.random() * 6 + 4;
+            this.trail = [];
+            this.maxTrailLength = Math.floor(Math.random() * 25 + 25);
+            this.colorType = Math.random() > 0.25 ? 'green' : 'cyan';
+        }
+
+        update() {
+            // Save position to trail
+            this.trail.push({ x: this.x, y: this.y, alpha: 1 });
+            if (this.trail.length > this.maxTrailLength) {
+                this.trail.shift();
+            }
+
+            // Fade trail points
+            for (let i = 0; i < this.trail.length; i++) {
+                this.trail[i].alpha *= 0.94;
+            }
+
+            // Mouse repulsion
+            if (mouse.x !== null && mouse.y !== null) {
+                const dx = mouse.x - this.x;
+                const dy = mouse.y - this.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < mouse.radius) {
+                    const force = (mouse.radius - dist) / mouse.radius;
+                    const angle = Math.atan2(dy, dx);
+                    this.x -= Math.cos(angle) * force * 4;
+                    this.y -= Math.sin(angle) * force * 4;
+                }
+            }
+
+            this.x += this.vx;
+            this.y += this.vy;
+
+            // Reset when leaving screen
+            if (this.x > width + 50 || this.y > height + 50) {
+                this.reset(false);
+            }
+        }
+
         draw() {
-            ctx.fillStyle = `rgba(0, 255, 157, ${this.size / 2.5})`;
+            const isGreen = this.colorType === 'green';
+            const baseColor = isGreen ? '0, 255, 157' : '0, 245, 212';
+
+            // Draw fading asteroid tail streak
+            for (let i = 0; i < this.trail.length - 1; i++) {
+                const p1 = this.trail[i];
+                const p2 = this.trail[i + 1];
+                const lineAlpha = (i / this.trail.length) * 0.45 * p1.alpha;
+
+                ctx.strokeStyle = `rgba(${baseColor}, ${lineAlpha})`;
+                ctx.lineWidth = this.size * (i / this.trail.length);
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.stroke();
+            }
+
+            // Draw glowing asteroid head
+            ctx.shadowBlur = this.glow;
+            ctx.shadowColor = `rgba(${baseColor}, 0.8)`;
+            ctx.fillStyle = `rgba(${baseColor}, 0.95)`;
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
             ctx.fill();
-        }
-        update() {
-            if (mouse.x && mouse.y) {
-                let dx = mouse.x - this.x;
-                let dy = mouse.y - this.y;
-                let dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < mouse.radius) {
-                    let force = (mouse.radius - dist) / mouse.radius;
-                    let angle = Math.atan2(dy, dx);
-                    this.x -= Math.cos(angle) * force * this.density * 0.4;
-                    this.y -= Math.sin(angle) * force * this.density * 0.4;
-                }
-            }
-            this.x += this.vx;
-            this.y += this.vy;
-            if (this.x < 0) this.x = canvas.width;
-            if (this.x > canvas.width) this.x = 0;
-            if (this.y < 0) this.y = canvas.height;
-            if (this.y > canvas.height) this.y = 0;
+
+            // Reset shadow to avoid perf penalty
+            ctx.shadowBlur = 0;
         }
     }
 
-    function initParticles() {
+    function initAsteroids() {
         particles = [];
-        let count = Math.min((canvas.width * canvas.height) / 11000, 90);
-        for (let i = 0; i < count; i++) particles.push(new Particle());
-    }
-
-    function connectParticles() {
-        for (let a = 0; a < particles.length; a++) {
-            for (let b = a + 1; b < particles.length; b++) {
-                let dx = particles[a].x - particles[b].x;
-                let dy = particles[a].y - particles[b].y;
-                let dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 110) {
-                    ctx.strokeStyle = `rgba(0, 255, 157, ${0.12 - dist / 1000})`;
-                    ctx.lineWidth = 0.5;
-                    ctx.beginPath();
-                    ctx.moveTo(particles[a].x, particles[a].y);
-                    ctx.lineTo(particles[b].x, particles[b].y);
-                    ctx.stroke();
-                }
-            }
+        const count = Math.min(Math.floor((width * height) / 14000), 75);
+        for (let i = 0; i < count; i++) {
+            particles.push(new Asteroid(true));
         }
     }
 
-    function animateParticles() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    function animate() {
+        ctx.clearRect(0, 0, width, height);
         particles.forEach(p => {
             p.update();
             p.draw();
         });
-        connectParticles();
-        requestAnimationFrame(animateParticles);
+        animationFrameId = requestAnimationFrame(animate);
     }
 
     window.addEventListener('resize', () => {
         resizeCanvas();
-        initParticles();
+        initAsteroids();
     });
 
     window.addEventListener('mousemove', e => {
@@ -98,8 +157,24 @@ if (canvas) {
     });
 
     resizeCanvas();
-    initParticles();
-    animateParticles();
+    initAsteroids();
+    animate();
+}
+
+// ============================================
+// 3D FLIP TITLE EFFECT
+// ============================================
+const flipContainer = document.getElementById('flip-title-container');
+if (flipContainer) {
+    let isFlipped = false;
+    setInterval(() => {
+        isFlipped = !isFlipped;
+        if (isFlipped) {
+            flipContainer.classList.add('flipped');
+        } else {
+            flipContainer.classList.remove('flipped');
+        }
+    }, 2800);
 }
 
 // ============================================
@@ -127,7 +202,7 @@ document.addEventListener('click', (e) => {
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
         const targetId = this.getAttribute('href');
-        if (targetId === '#') return;
+        if (targetId === '#' || !targetId) return;
         const target = document.querySelector(targetId);
         if (!target) return;
         e.preventDefault();
@@ -187,15 +262,15 @@ async function loadProjects() {
         renderProjects(allProjects);
     } catch (err) {
         console.warn('Fallback failed:', err);
-        projectGrid.innerHTML = '<p style="text-align:center;color:var(--text-muted);">Error al cargar los proyectos.</p>';
+        if (projectGrid) {
+            projectGrid.innerHTML = '<p style="text-align:center;color:var(--text-muted);">Error al cargar los proyectos.</p>';
+        }
     }
 
-    // Try fetching live GitHub repos in background to enhance data
     try {
         const apiRes = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=15`);
         if (apiRes.ok) {
             const githubRepos = await apiRes.json();
-            // Merge stars or updates into matching repos
             allProjects.forEach(p => {
                 const match = githubRepos.find(r => r.name.toLowerCase() === p.name.toLowerCase().replace(/\s+/g, '-'));
                 if (match) {
