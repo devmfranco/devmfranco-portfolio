@@ -4,10 +4,10 @@
     "name": "Ventanilla Virtual MICM",
     "html_url": "https://github.com/devmfranco",
     "description": "Plataforma gubernamental integral para la digitalización y gestión de trámites comerciales e industriales del Ministerio de Industria, Comercio y Mipymes.",
-    "language": "TypeScript",
-    "topics": ["Full Stack", "TypeScript", "Node.js", "React", "SQL", "MICM"],
+    "language": ".NET / C#",
+    "topics": [".NET", "Angular", "Razor Pages", "C#", "SQL Server", "Full Stack"],
     "category": "web",
-    "impact": "Desarrollo Full Stack de módulos transaccionales, nuevas funcionalidades y optimización de arquitectura para servicios públicos de alto tráfico.",
+    "impact": "Desarrollo Full Stack con .NET, Angular y Razor Pages: implementación de nuevas funcionalidades transaccionales, optimización de módulos y mejoras continuas de arquitectura.",
     "stargazers_count": 24,
     "forks_count": 5
   },
