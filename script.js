@@ -10,7 +10,7 @@ const themeAvatars = {
     'sunset': 'images/michael-avatar-sunset.jpg',
     'cyberpunk': 'images/michael-avatar-cyberpunk.jpg',
     'night': 'images/michael-avatar-night.jpg',
-    'dim': 'images/michael-avatar-matrix.jpg'
+    'dim': 'images/michael-avatar-dim.jpg'
 };
 
 const savedTheme = localStorage.getItem('portfolio-theme') || 'matrix';
