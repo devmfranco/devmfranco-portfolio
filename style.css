@@ -1056,10 +1056,33 @@ main {
 
 .project-actions {
   display: flex;
-  gap: 12px;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: auto;
 }
 
-.project-link {
+.project-btn-demo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--bg-dark);
+  background: var(--primary);
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 9px;
+  transition: var(--transition);
+  box-shadow: 0 0 12px rgba(var(--primary-rgb), 0.3);
+}
+
+.project-btn-demo:hover {
+  background: var(--accent);
+  box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.55);
+  transform: translateY(-2px);
+}
+
+.project-btn-code {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -1068,21 +1091,17 @@ main {
   color: var(--text-primary);
   text-decoration: none;
   padding: 8px 14px;
-  border-radius: 8px;
-  background: rgba(var(--primary-rgb), 0.08);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--card-border);
   transition: var(--transition);
 }
 
-.project-link:hover {
-  background: var(--primary);
-  color: var(--bg-dark);
+.project-btn-code:hover {
+  background: rgba(var(--primary-rgb), 0.12);
   border-color: var(--primary);
-}
-
-.project-link svg {
-  width: 16px;
-  height: 16px;
+  color: var(--primary);
+  transform: translateY(-2px);
 }
 
 /* Loading & Spinner */
