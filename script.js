@@ -5,6 +5,14 @@ const themeBtn = document.getElementById('theme-btn');
 const themeMenu = document.getElementById('theme-menu');
 const themeOptions = document.querySelectorAll('.theme-option');
 
+const themeAvatars = {
+    'matrix': 'images/michael-avatar-matrix.jpg',
+    'sunset': 'images/michael-avatar-sunset.jpg',
+    'cyberpunk': 'images/michael-avatar-cyberpunk.jpg',
+    'night': 'images/michael-avatar-night.jpg',
+    'dim': 'images/michael-avatar-matrix.jpg'
+};
+
 const savedTheme = localStorage.getItem('portfolio-theme') || 'matrix';
 applyTheme(savedTheme);
 
@@ -39,6 +47,11 @@ function applyTheme(theme) {
             opt.classList.remove('active');
         }
     });
+
+    const heroImg = document.querySelector('.hero-avatar-circle img');
+    if (heroImg && themeAvatars[theme]) {
+        heroImg.src = themeAvatars[theme];
+    }
 }
 
 function getActiveColors() {
