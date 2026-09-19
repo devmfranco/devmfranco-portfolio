@@ -316,9 +316,8 @@ const projectIcons = {
     'IAventary': '🤖',
     'Vigilante CJB': '🚨',
     'TalentFit AI': '🧠',
-    'Nish-Soft Extend': '📦',
-    'ReciclaDO': '♻️',
-    'Fitplans': '🏋️'
+    'Fitplans': '🏋️',
+    'ReciclaDO': '♻️'
 };
 
 async function loadProjects() {

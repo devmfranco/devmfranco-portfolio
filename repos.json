@@ -83,19 +83,5 @@
     "impact": "Seguimiento personal de métricas de reciclaje y educación ambiental en iOS y Android.",
     "stargazers_count": 10,
     "forks_count": 2
-  },
-  {
-    "id": 7,
-    "name": "Nish-Soft Extend",
-    "html_url": "https://github.com/devmfranco/Nish-Soft-Extend",
-    "demo_url": "",
-    "demo_label": "",
-    "description": "Sistema backend transaccional para control preciso de inventario, procesamiento de ventas y emisión de comprobantes fiscales.",
-    "language": "TypeScript",
-    "topics": ["NestJS", "TypeORM", "PostgreSQL", "Mailjet", "REST-API"],
-    "category": "backend",
-    "impact": "Sistema de autenticación seguro basado en roles y notificaciones automatizadas resolviendo dependencias complejas.",
-    "stargazers_count": 7,
-    "forks_count": 1
   }
 ]
