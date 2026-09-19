@@ -595,18 +595,26 @@ function renderProjects(projects) {
         card.setAttribute('data-category', p.category || 'all');
 
         const icon = projectIcons[p.name] || '💻';
-        const isOfficialProduction = p.name.includes('MICM') || p.name.includes('Ventanilla');
-        const demoLinkText = isOfficialProduction
-            ? (currentLang === 'en' ? 'Official Production' : 'Portal Oficial')
-            : (currentLang === 'en' ? 'Live Demo' : 'Ver Demo');
+        const demoUrl = p.demo_url || p.homepage;
+        let demoLinkText = currentLang === 'en' 
+            ? (p.demo_label_en || 'Live Demo') 
+            : (p.demo_label || 'Ver Demo');
+
+        if (p.name.includes('MICM') || p.name.includes('Ventanilla')) {
+            demoLinkText = currentLang === 'en' ? 'Official Portal' : 'Portal Oficial';
+        } else if (p.name.includes('Fitplans')) {
+            demoLinkText = currentLang === 'en' ? 'Figma Prototype' : 'Prototipo Figma';
+        } else if (p.name.includes('Recicla')) {
+            demoLinkText = currentLang === 'en' ? 'Video Demo' : 'Ver Video Demo';
+        }
 
         const title = currentLang === 'en' ? (p.name_en || p.name) : p.name;
         const description = currentLang === 'en' ? (p.description_en || p.description) : p.description;
 
-        const liveBtn = p.homepage
-            ? `<a href="${p.homepage}" target="_blank" rel="noopener noreferrer" class="btn-primary-small">
+        const liveBtn = demoUrl
+            ? `<a href="${demoUrl}" target="_blank" rel="noopener noreferrer" class="btn-primary-small">
                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                 ${demoLinkText}
+                 ${escapeHtml(demoLinkText)}
                </a>`
             : '';
 
