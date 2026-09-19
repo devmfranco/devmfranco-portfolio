@@ -86,13 +86,15 @@ export const translations = {
     // Chatbot
     "chat.title": "FrancoBot AI",
     "chat.status": "En línea · Asistente Virtual",
-    "chat.welcome": "¡Hola! 👋 Soy **FrancoBot**, el asistente virtual de Michael Franco. ¿Qué te gustaría saber sobre su experiencia, proyectos o habilidades?",
-    "chat.placeholder": "Escribe tu pregunta aquí...",
+    "chat.welcome": "¡Hola! 👋 Soy **FrancoBot**, el asistente de IA de Michael Franco. ¿Qué te gustaría consultar sobre su trayectoria, arquitectura de software, datos o disponibilidad?",
+    "chat.placeholder": "Escribe tu consulta o propuesta...",
     "chat.chips": [
-      "¿Cuál es tu experiencia en .NET y Azure?",
-      "Háblame de la Ventanilla Virtual MICM",
-      "¿Qué maestrías y estudios tienes?",
-      "¿Cómo puedo contratar o contactar a Michael?"
+      "⚡ Experiencia en .NET & Azure",
+      "🏛️ Proyecto Ventanilla MICM",
+      "📊 Analítica en Banco de Reservas",
+      "🎓 Doble Maestría & Estudios",
+      "💼 Disponibilidad & Modalidad",
+      "📬 Enviar mensaje al correo de Michael"
     ],
 
     // Terminal
@@ -187,13 +189,15 @@ export const translations = {
     // Chatbot
     "chat.title": "FrancoBot AI",
     "chat.status": "Online · Virtual Assistant",
-    "chat.welcome": "Hello! 👋 I'm **FrancoBot**, Michael Franco's interactive AI assistant. What would you like to know about his experience, projects, or background?",
-    "chat.placeholder": "Ask a question here...",
+    "chat.welcome": "Hello! 👋 I'm **FrancoBot**, Michael Franco's AI assistant. What would you like to explore regarding his background, architecture, data analytics, or availability?",
+    "chat.placeholder": "Type your inquiry or message...",
     "chat.chips": [
-      "What is your experience with .NET & Azure?",
-      "Tell me about the MICM Virtual Counter",
-      "What master's degrees do you have?",
-      "How can I hire or contact Michael?"
+      "⚡ .NET & Azure Experience",
+      "🏛️ MICM Platform Project",
+      "📊 Banreservas BI & Analytics",
+      "🎓 Dual Master's Degrees",
+      "💼 Work Availability & Scope",
+      "📬 Send Email to Michael"
     ],
 
     // Terminal

@@ -277,35 +277,39 @@
             </div>
 
             <div class="metrics-dashboard-grid">
-                <!-- KPI Cards -->
+                <!-- KPI Cards (Interactive Filter / Focus) -->
                 <div class="metrics-kpis-col">
-                    <div class="metric-card">
+                    <div class="metric-card interactive-kpi" data-metric="queries" title="Haz click para ver analítica de bases de datos">
                         <div class="metric-icon">⚡</div>
                         <div class="metric-value" data-i18n="metrics.kpi1.val">+50</div>
                         <div class="metric-label" data-i18n="metrics.kpi1.label">Consultas & SPs Optimizados</div>
+                        <span class="metric-hint">Click para explorar 🔍</span>
                     </div>
-                    <div class="metric-card">
+                    <div class="metric-card interactive-kpi" data-metric="transaccionalidad" title="Haz click para ver arquitectura backend">
                         <div class="metric-icon">🛡️</div>
                         <div class="metric-value" data-i18n="metrics.kpi2.val">100%</div>
                         <div class="metric-label" data-i18n="metrics.kpi2.label">Transaccionalidad & Integridad</div>
+                        <span class="metric-hint">Click para explorar 🔍</span>
                     </div>
-                    <div class="metric-card">
+                    <div class="metric-card interactive-kpi" data-metric="soluciones" title="Haz click para ver proyectos en producción">
                         <div class="metric-icon">🚀</div>
                         <div class="metric-value" data-i18n="metrics.kpi3.val">+6</div>
                         <div class="metric-label" data-i18n="metrics.kpi3.label">Soluciones de Alto Impacto</div>
+                        <span class="metric-hint">Click para explorar 🔍</span>
                     </div>
-                    <div class="metric-card">
+                    <div class="metric-card interactive-kpi" data-metric="maestrias" title="Haz click para ver especializaciones de postgrado">
                         <div class="metric-icon">🎓</div>
                         <div class="metric-value" data-i18n="metrics.kpi4.val">2</div>
                         <div class="metric-label" data-i18n="metrics.kpi4.label">Maestrías Especializadas</div>
+                        <span class="metric-hint">Click para explorar 🔍</span>
                     </div>
                 </div>
 
                 <!-- Chart.js Card -->
                 <div class="metrics-chart-card">
                     <div class="chart-header">
-                        <h3 data-i18n="metrics.chart.title">Distribución de Dominio Técnico</h3>
-                        <span class="chart-badge">Live Radar Analytics</span>
+                        <h3 id="chart-header-title" data-i18n="metrics.chart.title">Distribución de Dominio Técnico</h3>
+                        <span class="chart-badge" id="chart-badge-text">Live Radar Analytics</span>
                     </div>
                     <div class="chart-container">
                         <canvas id="techRadarChart"></canvas>
