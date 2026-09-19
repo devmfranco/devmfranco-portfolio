@@ -46,7 +46,7 @@
     "id": 4,
     "name": "TalentFit AI",
     "html_url": "https://github.com/devmfranco/ai-resume-skill-analyzer",
-    "demo_url": "https://devmfranco.github.io/ai-resume-skill-analyzer/#ai-tools",
+    "demo_url": "https://devmfranco.github.io/ai-resume-skill-analyzer./#ai-tools",
     "demo_label": "Ver App en Vivo",
     "description": "Analizador de Habilidades y CVs con Machine Learning & NLP que evalúa coincidencia semántica entre Currículums y Ofertas 100% en el navegador.",
     "language": "JavaScript",
