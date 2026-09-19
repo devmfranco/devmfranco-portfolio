@@ -131,6 +131,19 @@ function setLanguage(lang) {
         if (text) el.setAttribute('placeholder', text);
     });
 
+    // Re-render project cards with translated descriptions and buttons
+    const activeFilter = document.querySelector('.filter-btn.active')?.getAttribute('data-filter') || 'all';
+    const filtered = activeFilter === 'all' ? allProjects : allProjects.filter(p => p.category === activeFilter);
+    renderProjects(filtered);
+
+    // Update terminal welcome text
+    const termWelcome = document.getElementById('terminal-welcome-text');
+    if (termWelcome) {
+        termWelcome.innerHTML = currentLang === 'en'
+            ? `🚀 Michael Franco Interactive Terminal v2.5<br>Type <span class="term-hl">'help'</span> to view available commands.`
+            : `🚀 Michael Franco Interactive Terminal v2.5<br>Escribe <span class="term-hl">'help'</span> para ver los comandos disponibles.`;
+    }
+
     renderChatbotQuickChips();
     initOrUpdateRadarChart();
 }
@@ -169,8 +182,8 @@ function applyTheme(theme) {
 
 function getActiveColors() {
     const style = getComputedStyle(document.documentElement);
-    const primaryRgb = style.getPropertyValue('--primary-rgb').trim() || '0, 255, 157';
-    const accentRgb = style.getPropertyValue('--accent-rgb').trim() || '0, 245, 212';
+    const primaryRgb = style.getPropertyValue('--primary-rgb').trim() || '16, 185, 129';
+    const accentRgb = style.getPropertyValue('--accent-rgb').trim() || '6, 182, 212';
     return { primaryRgb, accentRgb };
 }
 
@@ -233,11 +246,11 @@ function initAsteroidsCanvas() {
                 this.x = spawn.x;
                 this.y = spawn.y;
             }
-            this.size = Math.random() * 2.2 + 0.8;
-            this.vx = (0.35 + Math.random() * 0.45);
-            this.vy = (0.3 + Math.random() * 0.4);
-            this.tailLength = Math.random() * 30 + 18;
-            this.baseAlpha = Math.random() * 0.5 + 0.3;
+            this.size = Math.random() * 2.0 + 0.8;
+            this.vx = (0.35 + Math.random() * 0.4);
+            this.vy = (0.28 + Math.random() * 0.35);
+            this.tailLength = Math.random() * 45 + 32;
+            this.baseAlpha = Math.random() * 0.32 + 0.25;
             this.alpha = this.baseAlpha;
             this.angle = Math.atan2(this.vy, this.vx);
         }
@@ -252,9 +265,9 @@ function initAsteroidsCanvas() {
                 const distance = Math.sqrt(dx * dx + dy * dy);
                 if (distance < mouse.radius) {
                     const force = (mouse.radius - distance) / mouse.radius;
-                    this.x -= (dx / distance) * force * 1.8;
-                    this.y -= (dy / distance) * force * 1.8;
-                    this.alpha = Math.min(1, this.baseAlpha + 0.4);
+                    this.x -= (dx / distance) * force * 1.5;
+                    this.y -= (dy / distance) * force * 1.5;
+                    this.alpha = Math.min(0.7, this.baseAlpha + 0.3);
                 }
             }
 
@@ -270,11 +283,15 @@ function initAsteroidsCanvas() {
 
             const gradient = ctx.createLinearGradient(tailX, tailY, this.x, this.y);
             gradient.addColorStop(0, `rgba(${colors.accentRgb}, 0)`);
-            gradient.addColorStop(0.7, `rgba(${colors.primaryRgb}, ${this.alpha * 0.4})`);
+            gradient.addColorStop(0.35, `rgba(${colors.accentRgb}, ${this.alpha * 0.12})`);
+            gradient.addColorStop(0.75, `rgba(${colors.primaryRgb}, ${this.alpha * 0.45})`);
             gradient.addColorStop(1, `rgba(${colors.primaryRgb}, ${this.alpha})`);
 
+            ctx.shadowColor = `rgba(${colors.primaryRgb}, 0.5)`;
+            ctx.shadowBlur = 5;
+
             ctx.strokeStyle = gradient;
-            ctx.lineWidth = this.size * 0.85;
+            ctx.lineWidth = this.size * 0.9;
             ctx.lineCap = 'round';
             ctx.beginPath();
             ctx.moveTo(tailX, tailY);
@@ -282,8 +299,6 @@ function initAsteroidsCanvas() {
             ctx.stroke();
 
             ctx.fillStyle = `rgba(${colors.primaryRgb}, ${this.alpha})`;
-            ctx.shadowColor = `rgba(${colors.primaryRgb}, 0.8)`;
-            ctx.shadowBlur = 8;
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.size * 0.9, 0, Math.PI * 2);
             ctx.fill();
@@ -1091,7 +1106,7 @@ function executeCommand(cmdStr) {
 
     const parts = raw.split(' ');
     const cmd = parts[0].toLowerCase();
-    const arg = parts.slice(1).join(' ').toLowerCase();
+    const arg = parts.slice(1).join(' ').trim();
 
     const cmdRow = document.createElement('div');
     cmdRow.className = 'term-cmd-row';
@@ -1101,21 +1116,104 @@ function executeCommand(cmdStr) {
     const outBlock = document.createElement('div');
     outBlock.className = 'term-output-block';
 
+    const jokesEs = [
+        "¿Por qué los desarrolladores prefieren el modo oscuro? Porque la luz atrae a los bugs.",
+        "Un optimista ve el vaso medio lleno. Un pesimista ve el vaso medio vacío. Un ingeniero de software ve que el vaso tiene el doble de capacidad requerida.",
+        "Hay 10 tipos de personas en el mundo: los que entienden binario y los que no.",
+        "¿Qué le dice una base de datos a otra? ¡No me hagas un DROP inesperado!",
+        "SELECT * FROM users WHERE status = 'happy' -- 0 rows returned until code deploys."
+    ];
+
+    const jokesEn = [
+        "Why do programmers prefer dark mode? Because light attracts bugs.",
+        "An optimist sees the glass half full. A pessimist sees it half empty. A software engineer sees the glass as having twice the required capacity.",
+        "There are 10 types of people: those who understand binary, and those who don't.",
+        "What did the SQL database say to the query? Stop locking my tables!",
+        "There's no place like 127.0.0.1"
+    ];
+
+    const quotesEs = [
+        "\"Hablar es barato. Enséñame el código.\" — Linus Torvalds",
+        "\"La simplicidad es el prerrequisito para la confiabilidad.\" — Edsger W. Dijkstra",
+        "\"Cualquier tonto puede escribir código que una computadora entienda. Los buenos programadores escriben código que los humanos pueden entender.\" — Martin Fowler",
+        "\"Primero resuelve el problema. Luego escribe el código.\" — John Johnson",
+        "\"Los datos superan a las opiniones.\" — W. Edwards Deming"
+    ];
+
+    const quotesEn = [
+        "\"Talk is cheap. Show me the code.\" — Linus Torvalds",
+        "\"Simplicity is prerequisite for reliability.\" — Edsger W. Dijkstra",
+        "\"Any fool can write code that a computer can understand. Good programmers write code that humans can understand.\" — Martin Fowler",
+        "\"First, solve the problem. Then, write the code.\" — John Johnson",
+        "\"In God we trust, all others must bring data.\" — W. Edwards Deming"
+    ];
+
+    const triviaList = [
+        {
+            q: currentLang === 'en' ? "¿Which port is standard for Microsoft SQL Server?" : "¿Cuál es el puerto estándar por defecto de Microsoft SQL Server?",
+            a: currentLang === 'en' ? "Port 1433" : "Puerto 1433"
+        },
+        {
+            q: currentLang === 'en' ? "¿What does ACID stand for in relational databases?" : "¿Qué significa ACID en bases de datos relacionales?",
+            a: currentLang === 'en' ? "Atomicity, Consistency, Isolation, Durability" : "Atomicidad, Consistencia, Aislamiento (Isolation) y Durabilidad"
+        },
+        {
+            q: currentLang === 'en' ? "¿Which Microsoft cloud service specializes in serverless visual workflow automation?" : "¿Qué servicio cloud de Azure se especializa en automatización de flujos y orquestación serverless?",
+            a: "Azure Logic Apps"
+        },
+        {
+            q: currentLang === 'en' ? "¿What are Michael Franco's two Master's degrees?" : "¿Cuáles son las dos Maestrías de postgrado de Michael Franco?",
+            a: currentLang === 'en' ? "1. Big Data & Business Intelligence, 2. Project Management" : "1. Big Data & Business Intelligence, 2. Project Management"
+        }
+    ];
+
     switch (cmd) {
         case 'help':
-            outBlock.innerHTML = `
-Comandos disponibles:
-  <span class="term-hl">skills</span>      - Muestra el stack técnico por categorías
-  <span class="term-hl">projects</span>    - Lista los 6 proyectos destacados
-  <span class="term-hl">exp</span>         - Resumen de experiencia laboral (MICM, Banreservas)
-  <span class="term-hl">edu</span>         - Titulación y Doble Maestría
-  <span class="term-hl">metrics</span>     - Abre métricas y KPIs de Big Data & BI
-  <span class="term-hl">theme &lt;name&gt;</span> - Cambia el tema: matrix, sunset, cyberpunk, night, dim
-  <span class="term-hl">lang &lt;es|en&gt;</span>  - Cambia el idioma (Español / English)
-  <span class="term-hl">contact</span>     - Enlaces directos de contacto y redes
-  <span class="term-hl">sudo hire</span>   - Acceso prioritario para reclutadores & empresas
-  <span class="term-hl">clear</span>       - Limpia el historial de la terminal
-            `;
+            outBlock.innerHTML = currentLang === 'en' ? `
+<b style="color:var(--primary);">🚀 Available CLI Commands:</b>
+  <span class="term-hl">skills</span>         - Technical stack categorized
+  <span class="term-hl">projects</span>       - List 6 showcase projects & live demos
+  <span class="term-hl">exp</span>            - Work experience summary (MICM, Banreservas)
+  <span class="term-hl">edu</span>            - Degrees & Dual Master's credentials
+  <span class="term-hl">metrics</span>        - Navigate to interactive BI Dashboard
+  <span class="term-hl">whoami</span>         - Developer & Engineer identity
+  <span class="term-hl">neofetch</span>       - Terminal system overview & specs
+  <span class="term-hl">matrix</span>         - Activate visual ASCII Matrix cipher rain
+  <span class="term-hl">joke</span>           - Random developer / data joke
+  <span class="term-hl">quote</span>          - Inspiring software & data wisdom quote
+  <span class="term-hl">quiz</span>           - Random engineering & BI trivia challenge
+  <span class="term-hl">banner</span>         - Display ASCII portfolio banner
+  <span class="term-hl">calc &lt;expr&gt;</span>    - Quick terminal math calculator (e.g. calc 1024*4)
+  <span class="term-hl">echo &lt;text&gt;</span>    - Echo text to terminal
+  <span class="term-hl">time</span>           - Current local & UTC timestamps
+  <span class="term-hl">theme &lt;name&gt;</span>   - Switch theme: matrix, sunset, cyberpunk, night, dim
+  <span class="term-hl">lang &lt;es|en&gt;</span>    - Switch portfolio language (ES / EN)
+  <span class="term-hl">contact</span>        - Contact links and profiles
+  <span class="term-hl">sudo hire</span>      - Fast-track recruiter & hiring access
+  <span class="term-hl">clear</span>          - Clear terminal history
+` : `
+<b style="color:var(--primary);">🚀 Comandos CLI Disponibles:</b>
+  <span class="term-hl">skills</span>         - Muestra el stack técnico por categorías
+  <span class="term-hl">projects</span>       - Lista los 6 proyectos destacados con enlaces a demos
+  <span class="term-hl">exp</span>            - Resumen de experiencia laboral (MICM, Banreservas)
+  <span class="term-hl">edu</span>            - Titulación y Doble Maestría
+  <span class="term-hl">metrics</span>        - Navega al dashboard interactivo de Métricas & BI
+  <span class="term-hl">whoami</span>         - Identidad profesional y perfil del ingeniero
+  <span class="term-hl">neofetch</span>       - Ficha técnica de especificaciones del portafolio
+  <span class="term-hl">matrix</span>         - Lluvia de caracteres ASCII estilo Matrix
+  <span class="term-hl">chiste</span> / <span class="term-hl">joke</span>  - Chiste para programadores y analistas de datos
+  <span class="term-hl">frase</span> / <span class="term-hl">quote</span>   - Frase célebre de ingeniería de software y datos
+  <span class="term-hl">quiz</span> / <span class="term-hl">trivia</span>   - Pregunta técnica interactiva con respuesta
+  <span class="term-hl">banner</span>         - Muestra el banner ASCII de Michael Franco
+  <span class="term-hl">calc &lt;expr&gt;</span>    - Calculadora matemática en la terminal (ej: calc 1024*4)
+  <span class="term-hl">echo &lt;texto&gt;</span>   - Imprime el texto ingresado
+  <span class="term-hl">time</span>           - Muestra fecha y hora actual
+  <span class="term-hl">theme &lt;name&gt;</span>   - Cambia el tema: matrix, sunset, cyberpunk, night, dim
+  <span class="term-hl">lang &lt;es|en&gt;</span>    - Cambia el idioma (Español / English)
+  <span class="term-hl">contact</span>        - Enlaces directos de contacto y redes
+  <span class="term-hl">sudo hire</span>      - Acceso prioritario para reclutadores & empresas
+  <span class="term-hl">clear</span>          - Limpia el historial de la terminal
+`;
             break;
 
         case 'skills':
@@ -1153,25 +1251,151 @@ Comandos disponibles:
             `;
             break;
 
+        case 'whoami':
+            outBlock.innerHTML = `
+<b>Michael Franco</b> (@devmfranco)
+• <b>Rol</b>: Ingeniero en Software & Analista de Datos
+• <b>Especialidad</b>: Backend (.NET/Node), SQL Server Optimization, Big Data & BI Dashboarding
+• <b>Ubicación</b>: República Dominicana (GMT-4 / Remoto / Híbrido)
+• <b>Disponibilidad</b>: Abierto a proyectos de alto impacto y consultoría técnica
+            `;
+            break;
+
+        case 'neofetch':
+        case 'sysinfo':
+            outBlock.innerHTML = `
+<pre style="font-family:var(--font-mono);font-size:0.8rem;line-height:1.25;color:var(--primary);margin:0;">
+   /\_/\       <b>michael@devmfranco</b>
+  ( o.o )      -------------------------
+   > ^ <       <b>OS</b>: Portfolio OS v2.5 x86_64
+               <b>Host</b>: Michael Franco Engineering Rig
+               <b>Kernel</b>: Dual-Master-Degree (Big Data & PM)
+               <b>Uptime</b>: 24/7 (Always Available)
+               <b>Shell</b>: devmfranco-bash 5.2.26
+               <b>Stack</b>: .NET / C#, Angular, SQL Server, Python, NestJS, Power BI
+               <b>Memory</b>: 100% Passion / 0% Bloatware
+</pre>
+            `;
+            break;
+
+        case 'matrix':
+            const chars = '010101DEVMFRAÑCO!@#$%&*+=-/\\|<>[]{}';
+            let matrixHtml = '<div style="font-family:var(--font-mono);color:var(--primary);font-size:0.75rem;line-height:1.15;letter-spacing:2px;">';
+            for (let row = 0; row < 7; row++) {
+                let line = '';
+                for (let col = 0; col < 36; col++) {
+                    line += chars[Math.floor(Math.random() * chars.length)];
+                }
+                matrixHtml += `<div>${line}</div>`;
+            }
+            matrixHtml += '<div style="margin-top:6px;color:#fff;font-weight:bold;">🟢 [MATRIX SYSTEM INITIATED] Connecting to Michael Franco Portfolio Neural Node...</div></div>';
+            outBlock.innerHTML = matrixHtml;
+            break;
+
+        case 'joke':
+        case 'chiste':
+            const jokes = currentLang === 'en' ? jokesEn : jokesEs;
+            const chosenJoke = jokes[Math.floor(Math.random() * jokes.length)];
+            outBlock.innerHTML = `😄 <i>${chosenJoke}</i>`;
+            break;
+
+        case 'quote':
+        case 'frase':
+            const quotes = currentLang === 'en' ? quotesEn : quotesEs;
+            const chosenQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            outBlock.innerHTML = `💡 <b>${chosenQuote}</b>`;
+            break;
+
+        case 'quiz':
+        case 'trivia':
+            const item = triviaList[Math.floor(Math.random() * triviaList.length)];
+            outBlock.innerHTML = `
+🧠 <b>${currentLang === 'en' ? 'TECH TRIVIA CHALLENGE' : 'RETO DE TRIVIA TÉCNICA'}</b>:
+<b>${item.q}</b>
+<div style="margin-top:6px;color:var(--primary);background:rgba(var(--primary-rgb),0.1);padding:6px 10px;border-radius:6px;">
+  👉 <b>${currentLang === 'en' ? 'Answer' : 'Respuesta'}:</b> ${item.a}
+</div>
+            `;
+            break;
+
+        case 'banner':
+            outBlock.innerHTML = `
+<pre style="font-family:var(--font-mono);font-size:0.65rem;color:var(--primary);line-height:1.15;margin:0;">
+ __  __ ___ ____ _   _    _    _____ _     _____ ____     _    _   _  ____ ___  
+|  \/  |_ _/ ___| | | |  / \  | ____| |   |  ___|  _ \   / \  | \ | |/ ___/ _ \ 
+| |\/| || | |   | |_| | / _ \ |  _| | |   | |_  | |_) | / _ \ |  \| | |  | | | |
+| |  | || | |___|  _  |/ ___ \| |___| |___|  _| |  _ < / ___ \| |\  | |__| |_| |
+|_|  |_|___\____|_| |_/_/   \_\_____|_____|_|   |_| \_\_/   \_\_| \_|\____\___/ 
+</pre>
+<p style="margin-top:4px;font-size:0.85rem;color:var(--text-secondary);">Michael Franco · Software Engineer & Data Analyst</p>
+            `;
+            break;
+
+        case 'calc':
+            if (!arg) {
+                outBlock.innerHTML = currentLang === 'en' ? `Usage: calc &lt;expression&gt; (e.g., calc 256 * 4 + 100)` : `Uso: calc &lt;expresion&gt; (ej: calc 256 * 4 + 100)`;
+            } else {
+                try {
+                    // Safe basic math evaluator (only numbers and operators)
+                    const sanitized = arg.replace(/[^0-9+\-*/(). %^]/g, '');
+                    const res = Function(`'use strict'; return (${sanitized})`)();
+                    outBlock.innerHTML = `🔢 <b>${escapeHtml(arg)}</b> = <span class="term-hl" style="font-size:1.1rem;font-weight:bold;">${res}</span>`;
+                } catch (e) {
+                    outBlock.innerHTML = `❌ Error evaluating expression: ${escapeHtml(arg)}`;
+                }
+            }
+            break;
+
+        case 'echo':
+            outBlock.innerHTML = escapeHtml(arg || '');
+            break;
+
+        case 'time':
+        case 'date':
+            const now = new Date();
+            outBlock.innerHTML = `🕒 <b>${now.toLocaleString()}</b> (Local) · <b>${now.toUTCString()}</b> (UTC)`;
+            break;
+
+        case 'cv':
+        case 'resume':
+            outBlock.innerHTML = `
+📄 <b>Currículum Vitae de Michael Franco</b>
+<p style="margin:6px 0;">Para solicitar el CV completo en formato PDF, conecta directamente vía LinkedIn o correo:</p>
+• LinkedIn: <a href="https://www.linkedin.com/in/michael-franco-rodriguez-34389a236/" target="_blank" style="color:var(--primary);">michael-franco-rodriguez</a>
+            `;
+            break;
+
+        case 'secret':
+        case 'easteregg':
+            outBlock.innerHTML = `
+🎉 <b>[EASTER EGG ACTIVADO]</b>
+¡Has descubierto el secreto de la terminal! 
+Consejo Pro: Presiona <kbd style="background:#222;padding:2px 6px;border-radius:4px;border:1px solid #444;">Ctrl + K</kbd> en cualquier momento para abrir/cerrar esta terminal.
+            `;
+            playSound('theme');
+            break;
+
         case 'metrics':
-            outBlock.innerHTML = `Navegando a sección de Métricas & BI...`;
+            outBlock.innerHTML = currentLang === 'en' ? `Navigating to Metrics & BI section...` : `Navegando a sección de Métricas & BI...`;
             document.querySelector('#metrics')?.scrollIntoView({ behavior: 'smooth' });
             toggleTerminal(false);
             break;
 
         case 'theme':
-            if (['matrix', 'sunset', 'cyberpunk', 'night', 'dim'].includes(arg)) {
-                applyTheme(arg);
-                outBlock.innerHTML = `Tema visual cambiado a: <span class="term-hl">${arg}</span>`;
+            const themeArg = arg.toLowerCase();
+            if (['matrix', 'sunset', 'cyberpunk', 'night', 'dim'].includes(themeArg)) {
+                applyTheme(themeArg);
+                outBlock.innerHTML = currentLang === 'en' ? `Visual theme changed to: <span class="term-hl">${themeArg}</span>` : `Tema visual cambiado a: <span class="term-hl">${themeArg}</span>`;
             } else {
                 outBlock.innerHTML = `Uso: theme &lt;matrix | sunset | cyberpunk | night | dim&gt;`;
             }
             break;
 
         case 'lang':
-            if (['es', 'en'].includes(arg)) {
-                setLanguage(arg);
-                outBlock.innerHTML = `Idioma cambiado a: <span class="term-hl">${arg.toUpperCase()}</span>`;
+            const langArg = arg.toLowerCase();
+            if (['es', 'en'].includes(langArg)) {
+                setLanguage(langArg);
+                outBlock.innerHTML = currentLang === 'en' ? `Language switched to: <span class="term-hl">${langArg.toUpperCase()}</span>` : `Idioma cambiado a: <span class="term-hl">${langArg.toUpperCase()}</span>`;
             } else {
                 outBlock.innerHTML = `Uso: lang &lt;es | en&gt;`;
             }
@@ -1202,7 +1426,9 @@ Conecta directamente en <a href="https://www.linkedin.com/in/michael-franco-rodr
             return;
 
         default:
-            outBlock.innerHTML = `Comando no reconocido: <i>${escapeHtml(cmd)}</i>. Escribe <span class="term-hl">'help'</span> para ver la lista.`;
+            outBlock.innerHTML = currentLang === 'en'
+                ? `Command not found: <i>${escapeHtml(cmd)}</i>. Type <span class="term-hl">'help'</span> for available commands.`
+                : `Comando no reconocido: <i>${escapeHtml(cmd)}</i>. Escribe <span class="term-hl">'help'</span> para ver la lista.`;
     }
 
     terminalHistory.appendChild(outBlock);

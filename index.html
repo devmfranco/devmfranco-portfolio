@@ -38,7 +38,7 @@
                 
                 <div class="nav-actions-wrapper">
                     <ul class="nav-menu">
-                        <li><a href="#home" class="nav-link active" data-i18n="nav.about">Inicio</a></li>
+                        <li><a href="#home" class="nav-link active" data-i18n="nav.home">Inicio</a></li>
                         <li><a href="#about" class="nav-link" data-i18n="nav.about">Sobre Mí</a></li>
                         <li><a href="#projects" class="nav-link" data-i18n="nav.projects">Proyectos</a></li>
                         <li><a href="#metrics" class="nav-link" data-i18n="nav.metrics">Métricas & BI</a></li>
@@ -66,7 +66,7 @@
                             <svg id="sound-icon-off" style="display:none;" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
                         </button>
 
-                        <!-- Theme Switcher Dropdown (Inspired by integr-dev) -->
+                        <!-- Theme Switcher Dropdown -->
                         <div class="theme-dropdown-container">
                             <button class="theme-toggle-btn" id="theme-btn" aria-label="Cambiar Tema" title="Cambiar Tema">
                                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
@@ -75,24 +75,24 @@
                             </button>
                             <div class="theme-dropdown-menu" id="theme-menu">
                                 <button class="theme-option active" data-set-theme="matrix">
-                                    <span class="theme-dot" style="background:#00ff9d;"></span>
-                                    <span>Verde Tech (Matrix)</span>
+                                    <span class="theme-dot" style="background:#10b981;"></span>
+                                    <span>Verde Esmeralda (Matrix)</span>
                                 </button>
                                 <button class="theme-option" data-set-theme="sunset">
-                                    <span class="theme-dot" style="background:#ff6b4a;"></span>
-                                    <span>Sunset (Naranja)</span>
+                                    <span class="theme-dot" style="background:#ea580c;"></span>
+                                    <span>Sunset (Terracota)</span>
                                 </button>
                                 <button class="theme-option" data-set-theme="cyberpunk">
-                                    <span class="theme-dot" style="background:#f72585;"></span>
-                                    <span>Cyberpunk (Neon)</span>
+                                    <span class="theme-dot" style="background:#db2777;"></span>
+                                    <span>Cyberpunk (Rose)</span>
                                 </button>
                                 <button class="theme-option" data-set-theme="night">
-                                    <span class="theme-dot" style="background:#38bdf8;"></span>
-                                    <span>Night (Azul)</span>
+                                    <span class="theme-dot" style="background:#0284c7;"></span>
+                                    <span>Night (Azul Océano)</span>
                                 </button>
                                 <button class="theme-option" data-set-theme="dim">
-                                    <span class="theme-dot" style="background:#a3e635;"></span>
-                                    <span>Dim (Minimal)</span>
+                                    <span class="theme-dot" style="background:#65a30d;"></span>
+                                    <span>Dim (Oliva / Sage)</span>
                                 </button>
                             </div>
                         </div>
@@ -107,7 +107,7 @@
     </header>
 
     <main>
-        <!-- Centered Hero Section inspired by integr-dev -->
+        <!-- Centered Hero Section -->
         <section id="home" class="hero hero-centered">
             <div class="hero-center-container">
                 <!-- Circular Pulsing Avatar -->
@@ -120,27 +120,27 @@
 
                 <div class="hero-badge">
                     <span class="status-dot"></span>
-                    <span>Disponible para Proyectos & Consultoría</span>
+                    <span data-i18n="hero.badge">Disponible para Proyectos & Consultoría</span>
                 </div>
 
-                <h2 class="hero-greeting">Hola, soy</h2>
+                <h2 class="hero-greeting" data-i18n="hero.greeting">Hola, soy</h2>
 
-                <!-- 3D Flip Text Effect -->
+                <!-- 3D Flip Text Effect (No Gradient - Solid White Typography) -->
                 <div class="flip-container" id="flip-title-container">
                     <div class="flip-front">
-                        <h1 class="hero-flip-title gradient-text">Michael Franco</h1>
+                        <h1 class="hero-flip-title">Michael Franco</h1>
                     </div>
                     <div class="flip-back">
-                        <h1 class="hero-flip-title gradient-text">devmfranco</h1>
+                        <h1 class="hero-flip-title">devmfranco</h1>
                     </div>
                 </div>
 
-                <p class="hero-role">
+                <p class="hero-role" data-i18n="hero.role">
                     <span class="highlight">Ingeniero en Software</span> & <span class="highlight">Analista de Datos</span>
                 </p>
 
-                <p class="hero-bio">
-                    Especializado en <strong class="text-glow">desarrollo Full Stack</strong>, <strong class="text-glow">arquitecturas backend</strong> y <strong class="text-glow">análisis de datos avanzado</strong>. Doble Maestría en <strong class="text-glow">Big Data & BI</strong> y <strong class="text-glow">Project Management</strong>. Experiencia clave como desarrollador Full Stack en la <strong class="text-glow">Ventanilla Virtual del MICM</strong> y proyectos analíticos en el <strong class="text-glow">Banco de Reservas</strong>.
+                <p class="hero-bio" data-i18n="hero.desc">
+                    Especializado en <strong>desarrollo Full Stack</strong>, <strong>arquitecturas backend</strong> y <strong>análisis de datos avanzado</strong>. Doble Maestría en <strong>Big Data & BI</strong> y <strong>Project Management</strong>. Experiencia clave como desarrollador Full Stack en la <strong>Ventanilla Virtual del MICM</strong> y proyectos analíticos en el <strong>Banco de Reservas</strong>.
                 </p>
 
                 <div class="hero-buttons">
@@ -188,7 +188,7 @@
         <!-- About Section -->
         <section id="about" class="section">
             <div class="section-header">
-                <span class="section-tag" data-i18n="about.tag">// Perfil & Trayectoria</span>
+                <span class="section-tag" data-i18n="about.tag">TRAYECTORIA PROFESIONAL</span>
                 <h2 data-i18n="about.title">Sobre Mí</h2>
                 <hr class="underline">
             </div>
@@ -205,10 +205,10 @@
                         Combino mi capacidad analítica con el desarrollo de soluciones integrales que resuelven problemas reales de negocio con solidez técnica, buenas prácticas y visión estratégica.
                     </p>
                     <div class="experience-pills">
-                        <span class="exp-badge">🏛️ Ventanilla Virtual MICM</span>
-                        <span class="exp-badge">🏦 Banco de Reservas</span>
-                        <span class="exp-badge">🚀 Desarrollo Full Stack</span>
-                        <span class="exp-badge">📊 Big Data & BI</span>
+                        <span class="exp-badge" data-i18n="about.pill1">🏛️ Ventanilla Virtual MICM</span>
+                        <span class="exp-badge" data-i18n="about.pill2">🏦 Banco de Reservas</span>
+                        <span class="exp-badge" data-i18n="about.pill3">🚀 Desarrollo Full Stack</span>
+                        <span class="exp-badge" data-i18n="about.pill4">📊 Big Data & BI</span>
                     </div>
                 </div>
                 <div class="about-cards">
@@ -246,7 +246,7 @@
         <!-- Projects Section -->
         <section id="projects" class="section">
             <div class="section-header">
-                <span class="section-tag" data-i18n="projects.tag">// Showcase de Desarrollo</span>
+                <span class="section-tag" data-i18n="projects.tag">PORTAFOLIO DE INGENIERÍA</span>
                 <h2 data-i18n="projects.title">Proyectos Destacados</h2>
                 <hr class="underline">
             </div>
@@ -270,7 +270,7 @@
         <!-- Metrics & BI Section -->
         <section id="metrics" class="section">
             <div class="section-header">
-                <span class="section-tag" data-i18n="metrics.tag">// Analítica & Desempeño</span>
+                <span class="section-tag" data-i18n="metrics.tag">ANALÍTICA & BUSINESS INTELLIGENCE</span>
                 <h2 data-i18n="metrics.title">Dashboard de Métricas & BI</h2>
                 <hr class="underline">
                 <p class="section-subtitle" data-i18n="metrics.subtitle">Visualización interactiva del balance técnico y métricas de impacto basadas en mi especialización en Big Data & BI.</p>
@@ -283,25 +283,25 @@
                         <div class="metric-icon">⚡</div>
                         <div class="metric-value" data-i18n="metrics.kpi1.val">+50</div>
                         <div class="metric-label" data-i18n="metrics.kpi1.label">Consultas & SPs Optimizados</div>
-                        <span class="metric-hint">Click para explorar 🔍</span>
+                        <span class="metric-hint" data-i18n="metrics.hint">Click para explorar 🔍</span>
                     </div>
                     <div class="metric-card interactive-kpi" data-metric="transaccionalidad" title="Haz click para ver arquitectura backend">
                         <div class="metric-icon">🛡️</div>
                         <div class="metric-value" data-i18n="metrics.kpi2.val">100%</div>
                         <div class="metric-label" data-i18n="metrics.kpi2.label">Transaccionalidad & Integridad</div>
-                        <span class="metric-hint">Click para explorar 🔍</span>
+                        <span class="metric-hint" data-i18n="metrics.hint">Click para explorar 🔍</span>
                     </div>
                     <div class="metric-card interactive-kpi" data-metric="soluciones" title="Haz click para ver proyectos en producción">
                         <div class="metric-icon">🚀</div>
                         <div class="metric-value" data-i18n="metrics.kpi3.val">+6</div>
                         <div class="metric-label" data-i18n="metrics.kpi3.label">Soluciones de Alto Impacto</div>
-                        <span class="metric-hint">Click para explorar 🔍</span>
+                        <span class="metric-hint" data-i18n="metrics.hint">Click para explorar 🔍</span>
                     </div>
                     <div class="metric-card interactive-kpi" data-metric="maestrias" title="Haz click para ver especializaciones de postgrado">
                         <div class="metric-icon">🎓</div>
                         <div class="metric-value" data-i18n="metrics.kpi4.val">2</div>
                         <div class="metric-label" data-i18n="metrics.kpi4.label">Maestrías Especializadas</div>
-                        <span class="metric-hint">Click para explorar 🔍</span>
+                        <span class="metric-hint" data-i18n="metrics.hint">Click para explorar 🔍</span>
                     </div>
                 </div>
 
@@ -321,8 +321,8 @@
         <!-- Skills Section -->
         <section id="skills" class="section">
             <div class="section-header">
-                <span class="section-tag">// Stack Tecnológico</span>
-                <h2>Habilidades Técnicas</h2>
+                <span class="section-tag" data-i18n="skills.tag">STACK & COMPETENCIAS</span>
+                <h2 data-i18n="skills.title">Habilidades Técnicas</h2>
                 <hr class="underline">
             </div>
             
@@ -334,8 +334,8 @@
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
                         </div>
                         <div>
-                            <h3>Backend & Arquitectura</h3>
-                            <p class="skill-cat-subtitle">APIs escalables, microservicios y lógica de negocio</p>
+                            <h3 data-i18n="skills.cat1.title">Backend & Arquitectura</h3>
+                            <p class="skill-cat-subtitle" data-i18n="skills.cat1.sub">APIs escalables, microservicios y lógica de negocio</p>
                         </div>
                     </div>
                     <div class="skill-badges-flow">
@@ -377,8 +377,8 @@
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
                         </div>
                         <div>
-                            <h3>Datos, BI & Analítica</h3>
-                            <p class="skill-cat-subtitle">Bases de datos relacionales, analítica y visualización</p>
+                            <h3 data-i18n="skills.cat2.title">Datos, BI & Analítica</h3>
+                            <p class="skill-cat-subtitle" data-i18n="skills.cat2.sub">Bases de datos relacionales, analítica y visualización</p>
                         </div>
                     </div>
                     <div class="skill-badges-flow">
@@ -420,8 +420,8 @@
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
                         </div>
                         <div>
-                            <h3>Frontend & Mobile</h3>
-                            <p class="skill-cat-subtitle">Interfaces web reactivas y experiencias móviles</p>
+                            <h3 data-i18n="skills.cat3.title">Frontend & Mobile</h3>
+                            <p class="skill-cat-subtitle" data-i18n="skills.cat3.sub">Interfaces web reactivas y experiencias móviles</p>
                         </div>
                     </div>
                     <div class="skill-badges-flow">
@@ -498,7 +498,7 @@
                         </span>
                         <span class="tech-badge">
                             <svg viewBox="0 0 24 24" fill="#00ff9d"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/></svg>
-                            Project Management
+                            <span data-i18n="skills.pm">Gestión de Proyectos (Scrum/Agile)</span>
                         </span>
                     </div>
                 </div>
@@ -508,7 +508,7 @@
         <!-- Contact Section -->
         <section id="contact" class="section">
             <div class="section-header">
-                <span class="section-tag" data-i18n="contact.tag">// Conectemos</span>
+                <span class="section-tag" data-i18n="contact.tag">CONTACTO & CONSULTORÍA</span>
                 <h2 data-i18n="contact.title">Contacto</h2>
                 <hr class="underline">
             </div>
@@ -643,6 +643,6 @@
         </footer>
     </main>
 
-    <script type="module" src="/script.js"></script>
+    <script type="module" src="./script.js"></script>
 </body>
 </html>
