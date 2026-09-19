@@ -17,6 +17,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="icon" href="images/michael-profile.jpg" type="image/jpeg">
     <link rel="stylesheet" href="style.css">
+    <!-- Chart.js for Interactive BI Metrics Dashboard -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <!-- Top Scroll Progress Bar -->
@@ -36,41 +38,63 @@
                 
                 <div class="nav-actions-wrapper">
                     <ul class="nav-menu">
-                        <li><a href="#home" class="nav-link active">Inicio</a></li>
-                        <li><a href="#about" class="nav-link">Sobre Mí</a></li>
-                        <li><a href="#projects" class="nav-link">Proyectos</a></li>
-                        <li><a href="#skills" class="nav-link">Habilidades</a></li>
-                        <li><a href="#contact" class="nav-link">Contacto</a></li>
+                        <li><a href="#home" class="nav-link active" data-i18n="nav.about">Inicio</a></li>
+                        <li><a href="#about" class="nav-link" data-i18n="nav.about">Sobre Mí</a></li>
+                        <li><a href="#projects" class="nav-link" data-i18n="nav.projects">Proyectos</a></li>
+                        <li><a href="#metrics" class="nav-link" data-i18n="nav.metrics">Métricas & BI</a></li>
+                        <li><a href="#skills" class="nav-link" data-i18n="nav.skills">Habilidades</a></li>
+                        <li><a href="#contact" class="nav-link" data-i18n="nav.contact">Contacto</a></li>
                     </ul>
 
-                    <!-- Theme Switcher Dropdown (Inspired by integr-dev) -->
-                    <div class="theme-dropdown-container">
-                        <button class="theme-toggle-btn" id="theme-btn" aria-label="Cambiar Tema" title="Cambiar Tema">
-                            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                                <path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10c1.38 0 2.5-1.12 2.5-2.5 0-.61-.23-1.21-.64-1.67-.08-.1-.13-.22-.13-.33 0-.28.22-.5.5-.5H16c3.31 0 6-2.69 6-6 0-4.96-4.49-9-10-9zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 8 6.5 8s1.5.67 1.5 1.5S7.33 11 6.5 11zm3-4C8.67 7 8 6.33 8 5.5S8.67 4 9.5 4s1.5.67 1.5 1.5S10.33 7 9.5 7zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 4 14.5 4s1.5.67 1.5 1.5S15.33 7 14.5 7zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 8 17.5 8s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
-                            </svg>
+                    <!-- Interactive Quick Tools Bar -->
+                    <div class="nav-tools-group">
+                        <!-- Language Switcher Toggle -->
+                        <button class="nav-tool-btn" id="lang-btn" aria-label="Cambiar Idioma / Switch Language" title="Cambiar Idioma (ES / EN)">
+                            <span id="lang-flag">🇩🇴</span>
+                            <span id="lang-text" class="nav-btn-text">ES</span>
                         </button>
-                        <div class="theme-dropdown-menu" id="theme-menu">
-                            <button class="theme-option active" data-set-theme="matrix">
-                                <span class="theme-dot" style="background:#00ff9d;"></span>
-                                <span>Verde Tech (Matrix)</span>
+
+                        <!-- Terminal CLI Button -->
+                        <button class="nav-tool-btn" id="terminal-btn" aria-label="Abrir Terminal CLI" title="Terminal CLI (Ctrl+K)">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                            <span class="nav-btn-text">CLI</span>
+                        </button>
+
+                        <!-- Cyber Sound Effects Toggle -->
+                        <button class="nav-tool-btn" id="sound-btn" aria-label="Efectos de Audio" title="Activar/Silenciar Efectos de Audio">
+                            <svg id="sound-icon-on" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                            <svg id="sound-icon-off" style="display:none;" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                        </button>
+
+                        <!-- Theme Switcher Dropdown (Inspired by integr-dev) -->
+                        <div class="theme-dropdown-container">
+                            <button class="theme-toggle-btn" id="theme-btn" aria-label="Cambiar Tema" title="Cambiar Tema">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                                    <path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10c1.38 0 2.5-1.12 2.5-2.5 0-.61-.23-1.21-.64-1.67-.08-.1-.13-.22-.13-.33 0-.28.22-.5.5-.5H16c3.31 0 6-2.69 6-6 0-4.96-4.49-9-10-9zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 8 6.5 8s1.5.67 1.5 1.5S7.33 11 6.5 11zm3-4C8.67 7 8 6.33 8 5.5S8.67 4 9.5 4s1.5.67 1.5 1.5S10.33 7 9.5 7zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 4 14.5 4s1.5.67 1.5 1.5S15.33 7 14.5 7zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 8 17.5 8s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+                                </svg>
                             </button>
-                            <button class="theme-option" data-set-theme="sunset">
-                                <span class="theme-dot" style="background:#ff6b4a;"></span>
-                                <span>Sunset (Naranja)</span>
-                            </button>
-                            <button class="theme-option" data-set-theme="cyberpunk">
-                                <span class="theme-dot" style="background:#f72585;"></span>
-                                <span>Cyberpunk (Neon)</span>
-                            </button>
-                            <button class="theme-option" data-set-theme="night">
-                                <span class="theme-dot" style="background:#38bdf8;"></span>
-                                <span>Night (Azul)</span>
-                            </button>
-                            <button class="theme-option" data-set-theme="dim">
-                                <span class="theme-dot" style="background:#a3e635;"></span>
-                                <span>Dim (Minimal)</span>
-                            </button>
+                            <div class="theme-dropdown-menu" id="theme-menu">
+                                <button class="theme-option active" data-set-theme="matrix">
+                                    <span class="theme-dot" style="background:#00ff9d;"></span>
+                                    <span>Verde Tech (Matrix)</span>
+                                </button>
+                                <button class="theme-option" data-set-theme="sunset">
+                                    <span class="theme-dot" style="background:#ff6b4a;"></span>
+                                    <span>Sunset (Naranja)</span>
+                                </button>
+                                <button class="theme-option" data-set-theme="cyberpunk">
+                                    <span class="theme-dot" style="background:#f72585;"></span>
+                                    <span>Cyberpunk (Neon)</span>
+                                </button>
+                                <button class="theme-option" data-set-theme="night">
+                                    <span class="theme-dot" style="background:#38bdf8;"></span>
+                                    <span>Night (Azul)</span>
+                                </button>
+                                <button class="theme-option" data-set-theme="dim">
+                                    <span class="theme-dot" style="background:#a3e635;"></span>
+                                    <span>Dim (Minimal)</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -120,20 +144,24 @@
                 </p>
 
                 <div class="hero-buttons">
-                    <a href="#projects" class="btn primary-btn">
+                    <button id="hero-chat-btn" class="btn primary-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                        <span data-i18n="hero.btn.chat">Hablar con FrancoBot AI</span>
+                    </button>
+                    <a href="#projects" class="btn secondary-btn">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
-                        <span>Ver Proyectos</span>
+                        <span data-i18n="hero.btn.projects">Ver Proyectos</span>
                     </a>
-                    <a href="#skills" class="btn secondary-btn">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
-                        <span>Habilidades</span>
+                    <a href="#metrics" class="btn secondary-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+                        <span data-i18n="nav.metrics">Métricas & BI</span>
                     </a>
                     <a href="https://www.linkedin.com/in/michael-franco-rodriguez-34389a236/" class="btn secondary-btn" target="_blank" rel="noopener">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                         <span>LinkedIn</span>
                     </a>
                     <a href="#contact" class="btn ghost-btn">
-                        <span>Contacto</span>
+                        <span data-i18n="nav.contact">Contacto</span>
                     </a>
                 </div>
 
@@ -160,20 +188,20 @@
         <!-- About Section -->
         <section id="about" class="section">
             <div class="section-header">
-                <span class="section-tag">// Perfil & Trayectoria</span>
-                <h2>Sobre Mí</h2>
+                <span class="section-tag" data-i18n="about.tag">// Perfil & Trayectoria</span>
+                <h2 data-i18n="about.title">Sobre Mí</h2>
                 <hr class="underline">
             </div>
             <div class="about-content">
                 <div class="about-text">
-                    <h3>Ingeniería de Software orientada a Negocio & Datos</h3>
-                    <p>
+                    <h3 data-i18n="about.headline">Ingeniería de Software orientada a Negocio & Datos</h3>
+                    <p data-i18n="about.p1">
                         Ingeniero en Software con una <span class="highlight">doble Maestría en Big Data & Business Intelligence</span> y <span class="highlight">Project Management</span>. Mi experiencia abarca desde el desarrollo Full Stack y arquitecturas backend hasta el análisis de datos avanzado.
                     </p>
-                    <p>
+                    <p data-i18n="about.p2">
                         He aportado valor en instituciones de alto perfil como desarrollador Full Stack en el proyecto de la <span class="highlight">Ventanilla Virtual del Ministerio de Industria, Comercio y Mipymes (MICM)</span>, implementando diversas funcionalidades transaccionales, integraciones y mejoras continuas de rendimiento. Asimismo, en el <span class="highlight">Banco de Reservas</span> diseñé consultas SQL complejas, dashboards en Power BI y flujos de automatización con Power Automate.
                     </p>
-                    <p>
+                    <p data-i18n="about.p3">
                         Combino mi capacidad analítica con el desarrollo de soluciones integrales que resuelven problemas reales de negocio con solidez técnica, buenas prácticas y visión estratégica.
                     </p>
                     <div class="experience-pills">
@@ -189,8 +217,8 @@
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11.7 2.805a.75.75 0 0 1 .6 0A60.65 60.65 0 0 1 22.83 8.72a.75.75 0 0 1-.231 1.337 49.948 49.948 0 0 0-9.902 3.912l-.003.002c-.114.06-.227.119-.34.18a.75.75 0 0 1-.707 0A50.88 50.88 0 0 0 7.5 12.173v-.224c0-.131.067-.248.172-.311a54.615 54.615 0 0 1 4.653-2.52.75.75 0 0 0-.65-1.352 56.123 56.123 0 0 0-4.78 2.589 1.858 1.858 0 0 0-.859 1.228 49.803 49.803 0 0 0-4.634-1.527.75.75 0 0 1-.231-1.337A60.653 60.653 0 0 1 11.7 2.805Z"/><path d="M13.06 15.473a48.45 48.45 0 0 1 7.666-3.282c.134 1.414.22 2.843.255 4.284a.75.75 0 0 1-.46.711 47.87 47.87 0 0 0-8.105 4.342.75.75 0 0 1-.832 0 47.87 47.87 0 0 0-8.104-4.342.75.75 0 0 1-.461-.71c.035-1.442.121-2.87.255-4.286.921.304 1.83.634 2.726.99v1.27a1.5 1.5 0 0 0-.14 2.508c-.09.38-.222.753-.397 1.11.452.213.901.434 1.346.66a6.727 6.727 0 0 0 .551-1.607 1.5 1.5 0 0 0 .14-2.67v-.645a48.549 48.549 0 0 1 3.44 1.667 2.25 2.25 0 0 0 2.12 0Z"/></svg>
                         </div>
                         <div>
-                            <h4>Educación & Posgrados</h4>
-                            <p>Ingeniería de Software · Doble Maestría en Big Data & BI y Project Management</p>
+                            <h4 data-i18n="about.card1.title">Educación & Posgrados</h4>
+                            <p data-i18n="about.card1.desc">Ingeniería de Software · Doble Maestría en Big Data & BI y Project Management</p>
                         </div>
                     </div>
                     <div class="about-card">
@@ -198,8 +226,8 @@
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M2.25 13.5a8.25 8.25 0 0 1 8.25-8.25.75.75 0 0 1 .75.75v6.75H18a.75.75 0 0 1 .75.75 8.25 8.25 0 0 1-16.5 0Z" clip-rule="evenodd" /><path fill-rule="evenodd" d="M12.75 3a.75.75 0 0 1 .75-.75 8.25 8.25 0 0 1 8.25 8.25.75.75 0 0 1-.75.75h-7.5a.75.75 0 0 1-.75-.75V3Z" clip-rule="evenodd" /></svg>
                         </div>
                         <div>
-                            <h4>Enfoque Profesional</h4>
-                            <p>Desarrollo Backend, Arquitectura de Datos, Automatización y BI Empresarial</p>
+                            <h4 data-i18n="about.card2.title">Enfoque Profesional</h4>
+                            <p data-i18n="about.card2.desc">Desarrollo Backend, Arquitectura de Datos, Automatización y BI Empresarial</p>
                         </div>
                     </div>
                     <div class="about-card">
@@ -207,8 +235,8 @@
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill-rule="evenodd" d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" clip-rule="evenodd" /></svg>
                         </div>
                         <div>
-                            <h4>Ubicación & Modalidad</h4>
-                            <p>República Dominicana · Remoto / Híbrido Global</p>
+                            <h4 data-i18n="about.card3.title">Ubicación & Modalidad</h4>
+                            <p data-i18n="about.card3.desc">República Dominicana · Remoto / Híbrido Global</p>
                         </div>
                     </div>
                 </div>
@@ -218,23 +246,70 @@
         <!-- Projects Section -->
         <section id="projects" class="section">
             <div class="section-header">
-                <span class="section-tag">// Showcase de Desarrollo</span>
-                <h2>Proyectos Destacados</h2>
+                <span class="section-tag" data-i18n="projects.tag">// Showcase de Desarrollo</span>
+                <h2 data-i18n="projects.title">Proyectos Destacados</h2>
                 <hr class="underline">
             </div>
 
             <div class="project-filters">
-                <button class="filter-btn active" data-filter="all">Todos</button>
-                <button class="filter-btn" data-filter="backend">Backend & APIs</button>
-                <button class="filter-btn" data-filter="data-ai">Datos & IA</button>
-                <button class="filter-btn" data-filter="web">Web Apps</button>
-                <button class="filter-btn" data-filter="mobile">Mobile</button>
+                <button class="filter-btn active" data-filter="all" data-i18n="projects.filter.all">Todos</button>
+                <button class="filter-btn" data-filter="backend" data-i18n="projects.filter.backend">Backend & APIs</button>
+                <button class="filter-btn" data-filter="data-ai" data-i18n="projects.filter.data">Datos & IA</button>
+                <button class="filter-btn" data-filter="web" data-i18n="projects.filter.web">Web Apps</button>
+                <button class="filter-btn" data-filter="mobile" data-i18n="projects.filter.mobile">Mobile</button>
             </div>
 
             <div class="project-grid" id="project-grid">
                 <div class="loading">
                     <div class="spinner"></div>
-                    <p>Cargando proyectos desde GitHub...</p>
+                    <p>Cargando proyectos...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Metrics & BI Section -->
+        <section id="metrics" class="section">
+            <div class="section-header">
+                <span class="section-tag" data-i18n="metrics.tag">// Analítica & Desempeño</span>
+                <h2 data-i18n="metrics.title">Dashboard de Métricas & BI</h2>
+                <hr class="underline">
+                <p class="section-subtitle" data-i18n="metrics.subtitle">Visualización interactiva del balance técnico y métricas de impacto basadas en mi especialización en Big Data & BI.</p>
+            </div>
+
+            <div class="metrics-dashboard-grid">
+                <!-- KPI Cards -->
+                <div class="metrics-kpis-col">
+                    <div class="metric-card">
+                        <div class="metric-icon">⚡</div>
+                        <div class="metric-value" data-i18n="metrics.kpi1.val">+50</div>
+                        <div class="metric-label" data-i18n="metrics.kpi1.label">Consultas & SPs Optimizados</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">🛡️</div>
+                        <div class="metric-value" data-i18n="metrics.kpi2.val">100%</div>
+                        <div class="metric-label" data-i18n="metrics.kpi2.label">Transaccionalidad & Integridad</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">🚀</div>
+                        <div class="metric-value" data-i18n="metrics.kpi3.val">+6</div>
+                        <div class="metric-label" data-i18n="metrics.kpi3.label">Soluciones de Alto Impacto</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">🎓</div>
+                        <div class="metric-value" data-i18n="metrics.kpi4.val">2</div>
+                        <div class="metric-label" data-i18n="metrics.kpi4.label">Maestrías Especializadas</div>
+                    </div>
+                </div>
+
+                <!-- Chart.js Card -->
+                <div class="metrics-chart-card">
+                    <div class="chart-header">
+                        <h3 data-i18n="metrics.chart.title">Distribución de Dominio Técnico</h3>
+                        <span class="chart-badge">Live Radar Analytics</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="techRadarChart"></canvas>
+                    </div>
                 </div>
             </div>
         </section>
@@ -380,8 +455,8 @@
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>
                         </div>
                         <div>
-                            <h3>Cloud, DevOps & Herramientas</h3>
-                            <p class="skill-cat-subtitle">Nube Azure, integración continua, IDEs y flujos ágiles</p>
+                            <h3 data-i18n="skills.cat4.title">Cloud, DevOps & Herramientas</h3>
+                            <p class="skill-cat-subtitle" data-i18n="skills.cat4.sub">Nube Azure, integración continua, IDEs y flujos ágiles</p>
                         </div>
                     </div>
                     <div class="skill-badges-flow">
@@ -429,14 +504,14 @@
         <!-- Contact Section -->
         <section id="contact" class="section">
             <div class="section-header">
-                <span class="section-tag">// Conectemos</span>
-                <h2>Contacto</h2>
+                <span class="section-tag" data-i18n="contact.tag">// Conectemos</span>
+                <h2 data-i18n="contact.title">Contacto</h2>
                 <hr class="underline">
             </div>
             <div class="contact-container">
                 <div class="contact-info">
-                    <h3>¿Hablamos de tu próximo proyecto?</h3>
-                    <p>Estoy siempre interesado en nuevos desafíos tecnológicos, consultoría de software y oportunidades de análisis de datos de alto impacto.</p>
+                    <h3 data-i18n="contact.heading">¿Hablamos de tu próximo proyecto?</h3>
+                    <p data-i18n="contact.desc">Estoy siempre interesado en nuevos desafíos tecnológicos, consultoría de software y oportunidades de análisis de datos de alto impacto.</p>
                     
                     <div class="contact-items">
                         <a href="https://www.linkedin.com/in/michael-franco-rodriguez-34389a236/" target="_blank" rel="noopener" class="contact-item">
@@ -463,26 +538,95 @@
 
                 <div class="contact-card-box">
                     <div>
-                        <h3>Construyamos Soluciones Escalables</h3>
-                        <p>Desde el diseño de microservicios e integraciones complejas hasta la estructuración de almacenes de datos y paneles analíticos en tiempo real.</p>
+                        <h3 data-i18n="contact.box.title">Construyamos Soluciones Escalables</h3>
+                        <p data-i18n="contact.box.desc">Desde el diseño de microservicios e integraciones complejas hasta la estructuración de almacenes de datos y paneles analíticos en tiempo real.</p>
                     </div>
                     <div class="contact-cta-buttons">
                         <a href="https://www.linkedin.com/in/michael-franco-rodriguez-34389a236/" target="_blank" rel="noopener" class="btn primary-btn">
-                            <span>Conectar en LinkedIn</span>
+                            <span data-i18n="contact.btn.linkedin">Enviar Mensaje en LinkedIn</span>
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                         </a>
                         <a href="https://github.com/devmfranco" target="_blank" rel="noopener" class="btn secondary-btn">
-                            <span>Explorar Repositorios en GitHub</span>
+                            <span data-i18n="contact.btn.github">Explorar Repositorios</span>
                         </a>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- Floating FrancoBot AI Widget -->
+        <div id="chatbot-container" class="chatbot-container">
+            <button id="chatbot-toggle-btn" class="chatbot-toggle-btn" aria-label="Abrir FrancoBot AI" title="Hablar con FrancoBot AI">
+                <div class="chatbot-btn-avatar">
+                    <img id="chatbot-btn-img" src="images/michael-avatar-matrix.jpg" alt="FrancoBot">
+                    <span class="chatbot-online-indicator"></span>
+                </div>
+                <span class="chatbot-btn-text">FrancoBot AI</span>
+            </button>
+            
+            <div id="chatbot-window" class="chatbot-window">
+                <div class="chatbot-header">
+                    <div class="chatbot-header-info">
+                        <div class="chatbot-header-avatar">
+                            <img id="chatbot-header-img" src="images/michael-avatar-matrix.jpg" alt="FrancoBot">
+                            <span class="chatbot-online-dot"></span>
+                        </div>
+                        <div>
+                            <h4 data-i18n="chat.title">FrancoBot AI</h4>
+                            <p class="chatbot-status" data-i18n="chat.status">En línea · Asistente Virtual</p>
+                        </div>
+                    </div>
+                    <div class="chatbot-header-actions">
+                        <button id="chatbot-minimize-btn" class="chatbot-icon-btn" aria-label="Minimizar chat">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="chatbot-messages" id="chatbot-messages"></div>
+                
+                <div class="chatbot-quick-chips" id="chatbot-quick-chips"></div>
+                
+                <form class="chatbot-input-container" id="chatbot-form">
+                    <input type="text" id="chatbot-input" data-i18n-placeholder="chat.placeholder" placeholder="Escribe tu pregunta aquí..." autocomplete="off">
+                    <button type="submit" id="chatbot-send-btn" aria-label="Enviar">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Terminal CLI Modal -->
+        <div id="terminal-modal" class="terminal-modal">
+            <div class="terminal-backdrop" id="terminal-backdrop"></div>
+            <div class="terminal-window">
+                <div class="terminal-titlebar">
+                    <div class="terminal-dots">
+                        <span class="dot dot-close" id="terminal-close-dot"></span>
+                        <span class="dot dot-min"></span>
+                        <span class="dot dot-max"></span>
+                    </div>
+                    <div class="terminal-title">michael@portfolio:~ (bash)</div>
+                    <button class="terminal-close-btn" id="terminal-close-btn" aria-label="Cerrar terminal">✕</button>
+                </div>
+                <div class="terminal-body" id="terminal-body">
+                    <div class="terminal-welcome" id="terminal-welcome-text">
+                        🚀 Michael Franco Interactive Terminal v2.5<br>
+                        Escribe <span class="term-hl">'help'</span> para ver los comandos disponibles.
+                    </div>
+                    <div id="terminal-history"></div>
+                    <div class="terminal-prompt-row">
+                        <span class="term-prompt">michael@devmfranco:~$</span>
+                        <input type="text" id="terminal-input" autocomplete="off" spellcheck="false">
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Footer -->
         <footer class="footer">
             <h3 class="highlight">Michael Franco</h3>
-            <p>Ingeniero en Software & Analista de Datos · Creando soluciones de alto impacto.</p>
+            <p data-i18n="footer.rights">Ingeniero en Software & Analista de Datos · Creando soluciones de alto impacto.</p>
             <div class="footer-social">
                 <a href="https://github.com/devmfranco" class="social-link" target="_blank" rel="noopener" title="GitHub">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
@@ -491,7 +635,7 @@
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                 </a>
             </div>
-            <p class="copyright">© 2026 Michael Franco. Todos los derechos reservados.</p>
+            <p class="copyright">© 2026 Michael Franco. <span data-i18n="footer.rights">Todos los derechos reservados.</span></p>
         </footer>
     </main>
 
